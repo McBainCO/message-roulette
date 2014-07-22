@@ -7,11 +7,15 @@ feature "Messages" do
 
     expect(page).to have_content("Message Roullete")
 
-    fill_in "Message", :with => "Hello Everyone!"
+    # fill_in "Message", :with => "Hello Everyone!"
+    #
+    # click_link "Submit"
+    #
+    # expect(page).to have_content("Hello Everyone!")
 
-    click_button "Submit"
+    click_link "Edit"
 
-    expect(page).to have_content("Hello Everyone!")
+    expect(page).to have_content("Edit Message")
   end
 
   scenario "As a user, I see an error message if I enter a message > 140 characters" do

@@ -1,0 +1,13 @@
+
+<h1>Edit Message</h1>
+<form></form>
+
+<form action="/message/:id/edit" method="p">
+  <input type="hidden" name="_method" value="patch"/>
+      <label for="message">Message</label>
+      <textarea id="message" name="message" value="message">
+          <%= message["message"]  %>
+      </textarea>
+  <br/>
+      <button>Submit</button>
+</form>
