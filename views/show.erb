@@ -1,0 +1,9 @@
+"Show Page"
+
+<p><%=message["message"]%> - <i><%=message["name"]%></i></p>
+
+<h4>Comments</h4>
+
+<%comments.each do |comment| %>
+  - <%=comment["comment"]%>
+<%end%>

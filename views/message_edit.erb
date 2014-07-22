@@ -2,12 +2,9 @@
 <h1>Edit Message</h1>
 <form></form>
 
-<form action="/message/:id/edit" method="post">
-  <input type="hidden" name="_method" value="patch"/>
-      <label for="message">Message</label>
-      <textarea id="message" name="message" value="message">
-          <%= message["message"]  %>
-      </textarea>
-  <br/>
-      <button>Edit Message</button>
+<form method="POST" action="/messages/<%=message_for_editing['id']%>">
+  <input type="hidden" name="_method" value="PATCH">
+  <label for="message">Message:</label><br/>
+  <textarea type="text" col="40" row="5"  id="message"  name="message" ><%=message_to_edit["message"]%></textarea><br>
+  <button>Submit</button>
 </form>

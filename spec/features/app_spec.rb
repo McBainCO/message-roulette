@@ -7,11 +7,11 @@ feature "Messages" do
 
     expect(page).to have_content("Message Roullete")
 
-    # fill_in "Message", :with => "Hello Everyone!"
-    #
-    # click_link "Submit"
-    #
-    # expect(page).to have_content("Hello Everyone!")
+    fill_in "Message", :with => "Hello Everyone!"
+
+    click_link "Submit"
+
+    expect(page).to have_content("Hello Everyone!")
 
     click_link "Edit"
 
