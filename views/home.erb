@@ -1,12 +1,48 @@
 <form method="post" action="/messages">
-  <label for="message">Message</label>
+  <label for="message">Message:</label>
   <textarea type="text" col="40" row="5" id="message" name="message"></textarea><br>
   <button>Submit</button>
 </form>
 
-<% messages.each do |message| %>
+<% messages.each do |message_hash| %>
 
-  <li><%= message["message"] %><a href="/message/<%= message["id"]%>/edit">Edit</a></li>
+  <li>
+    <a href= /messages/<%=message_hash["id"]%>><%= message_hash["message"] %></a>
+
+    <% if message_hash["like_count"].to_i != 1%>
+      <%like_grammar = "Likes"%>
+    <%else%>
+      <%like_grammar = "Like"%>
+    <%end%>
+    <%=message_hash["like_count"]%> <%=like_grammar%>
+
+    <form method="POST" action="/messages/<%=message_hash["id"]%>">
+      <input type="hidden" name="_method" value="PATCH">
+      <input type="hidden" name="like_count" value="<%=message_hash["like_count"]%>">
+      <button name="like_ness" value="1">Like</button>
+    </form>
+
+    <form method="POST" action="/messages/<%=message_hash["id"]%>">
+      <input type="hidden" name="_method" value="PATCH">
+      <input type="hidden" name="like_count" value="<%=message_hash["like_count"]%>">
+      <button name="like_ness" value="-1">Dislike</button>
+    </form>
+
+    <form method="POST" action="/messages/<%=message_hash["id"]%>">
+      <input type="hidden" name="_method" value="DELETE">
+      <button>Delete</button>
+    </form>
+    <a href="/messages/<%=message_hash["id"]%>/edit">Edit</a>
+    <a href="/comments/new/<%=message_hash["id"]%>">Comment</a>
+    <ul>
+      Comments:
+      <%comments.each do |comment_hash|%>
+        <% if comment_hash["message_id"] == message_hash["id"]%>
+          <li><%=comment_hash["comment"]%></li>
+        <%end%>
+      <%end%>
+    </ul>
+  </li>
+  <br/><br/>
 
 <% end %>
-

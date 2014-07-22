@@ -2,9 +2,9 @@
 <h1>Edit Message</h1>
 <form></form>
 
-<form method="POST" action="/messages/<%=message_for_editing['id']%>">
+<form method="POST" action="/messages/<%= message_for_editing['id']%>">
   <input type="hidden" name="_method" value="PATCH">
   <label for="message">Message:</label><br/>
-  <textarea type="text" col="40" row="5"  id="message"  name="message" ><%=message_to_edit["message"]%></textarea><br>
-  <button>Submit</button>
+  <textarea type="text" col="40" row="5"  id="message"  name="message" ><%=message_for_editing["message"]%></textarea><br>
+  <button>Edit Message</button>
 </form>

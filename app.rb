@@ -2,6 +2,9 @@ require "sinatra"
 require "active_record"
 require "gschool_database_connection"
 require "rack-flash"
+require "./lib/messages"
+require "./lib/comments"
+
 
 class App < Sinatra::Application
   enable :sessions
@@ -9,8 +12,8 @@ class App < Sinatra::Application
 
   def initialize
     super
-    @messages = messages.new(@database_connection = GschoolDatabaseConnection::DatabaseConnection.establish(ENV["RACK_ENV"]))
-    @comments = comments.new(@database_connection = GschoolDatabaseConnection::DatabaseConnection.establish(ENV["RACK_ENV"]))
+    @messages = Messages.new(@database_connection = GschoolDatabaseConnection::DatabaseConnection.establish(ENV["RACK_ENV"]))
+    @comments = Comments.new(@database_connection = GschoolDatabaseConnection::DatabaseConnection.establish(ENV["RACK_ENV"]))
     @database_connection = GschoolDatabaseConnection::DatabaseConnection.establish(ENV["RACK_ENV"])
   end
 
@@ -34,22 +37,33 @@ class App < Sinatra::Application
   get "/message/:id/edit" do
    id = params[:id].to_i
     message_for_editing = @messages.find_by_id(id)
-    erb :message_edit, locals: {message_to_edit: message_for_editing)
+    erb :message_edit, locals: {message_for_editing: message_for_editing}
   end
 
   patch "/message/:id" do
+    if params[:update]
     message_for_editing = params[:message]
       if message_for_editing.length <= 140
         @messages.update_message(message_for_editing, params[:id].to_i)
         redirect "/"
       else
         flash[:error] = "Message must be less than 140 characters."
-        erb :message_edit, locals: {message_for_editing: message_for_editing}      end
+        erb :message_edit, locals: {message_for_editing: message_for_editing}
+      end
+
+    elsif params[:like_ness]
+      count_direction = params[:like_ness].to_i
+      @messages.increment_like_count(count_direction, params[:like_count].to_i, params[:id].to_i)
+      redirect "/"
+    else
+      redirect "/"
+
+    end
   end
 
   delete "/messages/:id" do
     id = params[:id].to_i
-    messages.delete_by_id(id)
+    @messages.delete_by_id(id)
     redirect "/"
   end
 
