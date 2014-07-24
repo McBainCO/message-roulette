@@ -1,0 +1,8 @@
+<h1>Add a Comment</h1>
+
+<form method="POST" action="/comments">
+  <label for="comment">Comment:</label>
+  <textarea type="text" col="40" row="5" id="comment" name="comment"></textarea><br>
+  <input type="hidden" name="message_id" value =<%=message_id%>/>
+  <button>Add Comment</button>
+</form>
